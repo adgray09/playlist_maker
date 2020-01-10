@@ -1,4 +1,4 @@
 {% extends 'base.html' %}
-<h1>
-    Hello
-</h1>
+
+{% if playlist_items %}
+    {% for playlist in playlist_items %}
