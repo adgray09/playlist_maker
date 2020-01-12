@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-{{ playlist.title }}
-{{ playlist.description }}
+    <div><button>
+    <a style="color: rgba(92, 165, 131, 0.829)" 
+    href='/song/new' class='btn warning'>Add a song</a>
+    </button></div>
+    <div class="card container mb-5 mt-5 card-body"> 
+        <div class="row">
+            <div class="col-sm">
+                <h1>{{ playlist.title }}</h1>
+                    <a href='/'>back home</a>
+                <h1>{{ playlist.songs }}</h1>
+            </div>
 
 {% endblock %}

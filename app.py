@@ -13,6 +13,11 @@ def index():
     playlist_items = playlists.find()
     return render_template ('index.html', playlist_items=playlist_items)
 
+@app.route('/song/new')
+#new song submission page
+def new_song():
+    return render_template('new_song.html')
+
 @app.route('/playlist/new')
 #playlist making page
 def new_playlist():
@@ -23,12 +28,13 @@ def submit_playlist():
     added_playlist = {
         'title': request.form.get('title'),
         'description': request.form.get('description'),
+        'songs': request.form.get('songs'),
     }
     playlist_id = playlists.insert_one(added_playlist).inserted_id 
     return redirect(url_for('playlist_show', playlist_id=playlist_id))
 
 @app.route('/playlist/<playlist_id>')
-#look at one art piece
+#look at one playlist
 def playlist_show(playlist_id):
     playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
     return render_template('playlist_show.html', playlist=playlist)

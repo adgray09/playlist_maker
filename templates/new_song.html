@@ -1,0 +1,25 @@
+<!-- templates/new_playlist.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container card d-flex mt-4 justify-content-center">
+    <form method='POST' action='/playlist'>
+        <fieldset>
+            <legend>New Song</legend>
+            <!-- TITLE -->
+            <p>
+                <label for='title'>Title</label><br>
+                <input type='text' name='title' />
+            </p>
+            <p>
+                <label for='description'>Artist</label><br>
+                <input type='text' name='description'/>
+            </p>
+        </fieldset>
+        <!-- BUTTON -->
+        <p>
+            <button type='submit'>Add Song</button>
+        </p>
+    </form>
+</div>
+{% endblock %}
