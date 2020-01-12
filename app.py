@@ -5,6 +5,7 @@ from bson import ObjectId
 client = MongoClient()
 db = client.playlist_maker
 playlists = db.playlists
+songs = db.songs
 
 app = Flask(__name__, static_url_path='')
 
@@ -17,6 +18,16 @@ def index():
 #new song submission page
 def new_song():
     return render_template('new_song.html')
+
+@app.route('/song', methods=['POST'])
+def submit_song():
+    added_song = {
+        'title': request.form.get('title'),
+        'artist': request.form.get('artist'),
+    }
+
+    song_id = songs.insert_one(added_song).inserted.id
+    return redirect(url_for('song_show', song_id=song_id))
 
 @app.route('/playlist/new')
 #playlist making page
@@ -38,6 +49,12 @@ def submit_playlist():
 def playlist_show(playlist_id):
     playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
     return render_template('playlist_show.html', playlist=playlist)
+
+@app.route('/playlist/<playlist_id>/delete', methods=['POST'])
+#Delete post method
+def playlists_delete(playlist_id):
+    playlists.delete_one({'_id': ObjectId(playlist_id)})
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
