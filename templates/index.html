@@ -1,7 +1,26 @@
 {% extends 'base.html' %}
 
+{% block content %}
+
 {% if playlist_items %}
     {% for playlist in playlist_items %}
-
+    <div class="card container text-center mt-5" style="width: 26rem;">
+            <div class="row justify-content-center">
+                <div style="display: inline-block">
+                    
+                    <div class="col-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ playlist.title }}</h5>
+                            <p class="card-text">{{ playlist.description|safe|truncate(200) }}</p>
+                        </div>
+                        <div class="card-body">
+                            <a href="/playlist/{{ playlist._id }}" class="card-link">View playlist</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 {% endif %}
+
+{% endblock %}
