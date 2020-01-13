@@ -1,9 +1,8 @@
-<!-- templates/new_playlist.html -->
 {% extends 'base.html' %}
 
 {% block content %}
 <div class="container card d-flex mt-4 justify-content-center">
-    <form method='POST' action='/playlist'>
+    <form method='POST' action='/playlist/{{ playlist_id }}/add_song'>
         <fieldset>
             <legend>New Song</legend>
             <!-- TITLE -->
@@ -11,9 +10,15 @@
                 <label for='title'>Title</label><br>
                 <input type='text' name='title' />
             </p>
+            <!-- ARTIST -->
             <p>
                 <label for='artist'>Artist</label><br>
                 <input type='text' name='artist'/>
+            </p>
+            <!-- LINK -->
+            <p>
+                <label for='link'>Link</label><br>
+                <input type='text' name='link'/>
             </p>
         </fieldset>
         <!-- BUTTON -->

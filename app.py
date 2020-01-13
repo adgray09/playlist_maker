@@ -19,21 +19,40 @@ def playlist_page():
     song_items = songs.find()
     return render_template ('playlist_show.html', song_items=song_items)
 
-@app.route('/song/new')
+@app.route('/playlist/<playlist_id>/add_song')
 #new song submission page
-def new_song():
-    return render_template('new_song.html')
+def add_song(playlist_id):
+    return render_template('new_song.html', playlist_id=playlist_id)
 
-@app.route('/playlist', methods=['POST'])
-def submit_song():
-    added_song = {
+@app.route('/playlist/<playlist_id>/add_song', methods=['POST'])
+# add new song to playlist
+def submit_add_song(playlist_id):
+    # grab playlist
+    playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
+
+    # create new song
+    updatedSongs = playlist['songs'] + [{
         'title': request.form.get('title'),
         'artist': request.form.get('artist'),
-    }
+        'link': request.form.get('link'),
+    }]
 
-    song_id = songs.insert_one(added_song).inserted_id
-    return redirect(url_for('playlist_show', song_id=song_id))
+    # update on backend
+    playlists.update_one(
+        {'_id': ObjectId(playlist_id)}, # query for playlist
+        {
+            '$set' : {
+                'songs': updatedSongs
+            }
+        }
+    )
 
+    # render playlist
+    return redirect(url_for('playlist_show', playlist_id=playlist_id))
+
+# @app.route('/playlist', methods=['POST'])
+# def new_song():
+    
 @app.route('/playlist/new')
 #playlist making page
 def new_playlist():
@@ -44,17 +63,16 @@ def submit_playlist():
     added_playlist = {
         'title': request.form.get('title'),
         'description': request.form.get('description'),
-        'songs': request.form.get('songs'),
+        'songs': [] # eventually will be an array of songs with title, artist, and link
     }
     playlist_id = playlists.insert_one(added_playlist).inserted_id 
     return redirect(url_for('playlist_show', playlist_id=playlist_id))
 
 @app.route('/playlist/<playlist_id>')
 #look at one playlist
-def playlist_show(playlist_id, song_id):
+def playlist_show(playlist_id):
     playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
-    song = songs.find_one({'_id': ObjectId(song_id)})
-    return render_template('playlist_show.html', playlist=playlist, song=song)
+    return render_template('playlist_show.html', playlist=playlist)
 
 @app.route('/playlist/<playlist_id>/delete', methods=['POST'])
 #Delete post method

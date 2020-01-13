@@ -2,21 +2,32 @@
 
 {% block content %}
 
-    <div><button>
-    <a style="color: rgba(92, 165, 131, 0.829)" 
-    href='/song/new' class='btn warning'>Add a song</a>
-    </button></div>
+    <div>
+        <button>
+            <a style="color: rgba(92, 165, 131, 0.829)" 
+                href='/playlist/{{ playlist._id }}/add_song' class='btn warning'>Add a song</a>
+        </button>
+    </div>
     <div class="card container mb-5 mt-5 card-body"> 
         <div class="row">
             <div class="col-sm">
                 <h1>{{ playlist.title }}</h1>
                     <a href='/'>back home</a>
-                <h1>{{ playlist.songs }}</h1>
             </div>
             <form method='POST' action='/playlist/{{ playlist._id }}/delete'>
                 <button class='btn btn-primary' type='submit'>Delete</button>
             </form><br>
-            {% for song in song_items %}
-                <h1>{{ song.title }}</h1>
-            {% endfor %}
+        </div>
+        <hr>
+
+        <div>
+            <ul>
+                {% for song in playlist.songs %}
+                    <li>
+                        {{ song.title }} by {{ song.artist}} <a href='{{ song.link }}' target='_blank'>Listen</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
