@@ -80,5 +80,50 @@ def playlists_delete(playlist_id):
     playlists.delete_one({'_id': ObjectId(playlist_id)})
     return redirect(url_for('index'))
 
+@app.route('/playlist/<playlist_id>/delete_song/<song_index>', methods=['POST'])
+def song_delete(playlist_id, song_index):
+     # grab playlist
+    playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
+
+    updatedSongs = []
+
+    # use black magic to remove an element from a list in python
+    songs = playlist['songs']
+    for i in range(len(songs)):
+        if i != int(song_index) - 1:
+            updatedSongs.append(songs[i])
+
+    # update on backend
+    playlists.update_one(
+        {'_id': ObjectId(playlist_id)}, # query for playlist
+        {
+            '$set' : {
+                'songs': updatedSongs
+            }
+        }
+    )
+
+    # render playlist
+    return redirect(url_for('playlist_show', playlist_id=playlist_id))
+
+@app.route('/playlist/<playlist_id>', methods=['POST'])
+#edit playlist
+def playlist_update(playlist_id):
+    new_playlist = {
+        'title': request.form.get('title'),
+        'description': request.form.get('description'),
+        'creator': request.form.get('creator'),
+    }
+    playlists.update_one(
+        {'_id': ObjectId(playlist_id)},
+        {'$set': new_playlist})
+    return redirect(url_for('playlist_show', playlist_id=playlist_id))
+
+@app.route('/playlist/<playlist_id>/edit')
+#edit form
+def chips_edit(playlist_id):
+    playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
+    return render_template('edit_playlist.html', playlist=playlist)
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))

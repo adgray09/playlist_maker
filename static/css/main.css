@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -150px;
+    padding-bottom: 150px;
+}
+
+footer {
+    height: 100px;
+}

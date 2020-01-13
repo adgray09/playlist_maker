@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<div class="jumbotron">
+        <h1 class="display-4">Playlist Maker</h1>
+        <p class="lead">Welcome to Playlist Maker! The Website you come to make all your friends and family a playlist!</p>
+        <hr class="my-4">
+        <p></p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        </p>
+      </div>
 {% if playlist_items %}
     {% for playlist in playlist_items %}
+    
     <div class="card container text-center mt-5" style="width: 26rem;">
             <div class="row justify-content-center">
                 <div style="display: inline-block">
                     <div class="col-sm">
                         <div class="card-body">
                             <h5 class="card-title">{{ playlist.title }}</h5>
+                            <hr>
                             <p class="card-text">{{ playlist.description|safe|truncate(200) }}</p>
                         </div>
                         <div class="card-body">

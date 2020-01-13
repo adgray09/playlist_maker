@@ -1,0 +1,29 @@
+<!-- templates/art_edit.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4 d-flex justify-content-center">
+    <form method='POST' action='/playlist/{{ playlist._id }}'>
+        <fieldset>
+        <legend>Edit Playlist</legend>
+        <!-- TITLE -->
+        <p>
+            <label for='title'>Title</label><br>
+            <input type='text' name='title' value='{{ playlist.title }}'/>
+        </p>
+        <p>
+            <label for='description'>Playlist</label><br>
+            <input type='text' name='description' value='{{ playlist.description }}' />
+        </p>
+        <p>
+                <label for='creator'>Creator</label><br>
+                <input type='text' name='creator' />
+            </p>
+        </fieldset>
+        <!-- BUTTON -->
+        <p>
+            <button type='submit'>Save Edit</button>
+        </p>
+    </form>
+</div>
+{% endblock %}

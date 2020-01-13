@@ -12,21 +12,28 @@
         <div class="row">
             <div class="col-sm">
                 <h1>{{ playlist.title }}</h1>
+                <h3>Created by {{ playlist.creator }}</h3>
                     <a href='/'>back home</a>
             </div>
             <form method='POST' action='/playlist/{{ playlist._id }}/delete'>
-                <button class='btn btn-primary' type='submit'>Delete</button>
+                <button class='btn btn-primary' type='submit'>Delete Playlist</button>
             </form><br>
         </div>
         <hr>
-
         <div>
             <ul>
                 {% for song in playlist.songs %}
                     <li>
                         {{ song.title }} by {{ song.artist}} <a href='{{ song.link }}' target='_blank'>Listen</a>
                     </li>
+                    <form method='POST' action='/playlist/{{ playlist._id }}/delete_song/{{ loop.index }}'>
+                        <button class='btn btn-primary' type='submit'>Delete</button>
+                    </form><br>
                 {% endfor %}
+                <p> 
+                    <a href='/playlist/{{ playlist._id }}/edit'>Edit</a><br>
+                    <a href='/'>back home</a>
+                </p>
             </ul>
         </div>
     </div>
