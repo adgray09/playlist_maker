@@ -14,20 +14,25 @@ def index():
     playlist_items = playlists.find()
     return render_template ('index.html', playlist_items=playlist_items)
 
+@app.route('/playlist')
+def playlist_page():
+    song_items = songs.find()
+    return render_template ('playlist_show.html', song_items=song_items)
+
 @app.route('/song/new')
 #new song submission page
 def new_song():
     return render_template('new_song.html')
 
-@app.route('/song', methods=['POST'])
+@app.route('/playlist', methods=['POST'])
 def submit_song():
     added_song = {
         'title': request.form.get('title'),
         'artist': request.form.get('artist'),
     }
 
-    song_id = songs.insert_one(added_song).inserted.id
-    return redirect(url_for('song_show', song_id=song_id))
+    song_id = songs.insert_one(added_song).inserted_id
+    return redirect(url_for('playlist_show', song_id=song_id))
 
 @app.route('/playlist/new')
 #playlist making page
@@ -46,9 +51,10 @@ def submit_playlist():
 
 @app.route('/playlist/<playlist_id>')
 #look at one playlist
-def playlist_show(playlist_id):
+def playlist_show(playlist_id, song_id):
     playlist = playlists.find_one({'_id': ObjectId(playlist_id)})
-    return render_template('playlist_show.html', playlist=playlist)
+    song = songs.find_one({'_id': ObjectId(song_id)})
+    return render_template('playlist_show.html', playlist=playlist, song=song)
 
 @app.route('/playlist/<playlist_id>/delete', methods=['POST'])
 #Delete post method

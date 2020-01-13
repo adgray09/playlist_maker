@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div><button>
     <a style="color: rgba(92, 165, 131, 0.829)" 
     href='/song/new' class='btn warning'>Add a song</a>
@@ -15,4 +16,7 @@
             <form method='POST' action='/playlist/{{ playlist._id }}/delete'>
                 <button class='btn btn-primary' type='submit'>Delete</button>
             </form><br>
+            {% for song in song_items %}
+                <h1>{{ song.title }}</h1>
+            {% endfor %}
 {% endblock %}
