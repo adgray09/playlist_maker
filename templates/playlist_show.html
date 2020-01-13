@@ -27,12 +27,13 @@
                         {{ song.title }} by {{ song.artist}} <a href='{{ song.link }}' target='_blank'>Listen</a>
                     </li>
                     <form method='POST' action='/playlist/{{ playlist._id }}/delete_song/{{ loop.index }}'>
-                        <button class='btn btn-primary' type='submit'>Delete</button>
-                    </form><br>
+                        <button class='btn mt-2 btn-primary' type='submit'>Delete</button>
+                    </form>
                 {% endfor %}
                 <p> 
-                    <a href='/playlist/{{ playlist._id }}/edit'>Edit</a><br>
-                    <a href='/'>back home</a>
+                    <div class="mt-4"><a href='/playlist/{{ playlist._id }}/edit'>Edit</a><br>
+                        <a href='/'>back home</a></div>
+
                 </p>
             </ul>
         </div>

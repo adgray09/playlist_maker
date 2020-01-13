@@ -15,11 +15,6 @@ def index():
     playlist_items = playlists.find()
     return render_template ('index.html', playlist_items=playlist_items)
 
-@app.route('/playlist')
-def playlist_page():
-    song_items = songs.find()
-    return render_template ('playlist_show.html', song_items=song_items)
-
 @app.route('/playlist/<playlist_id>/add_song')
 #new song submission page
 def add_song(playlist_id):
